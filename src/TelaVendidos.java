@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -13,7 +17,8 @@ public class TelaVendidos extends javax.swing.JFrame {
      * Creates new form TelaVendidos
      */
     public TelaVendidos() {
-        initComponents();
+       initComponents();
+    listarProdutosVendidos();
     }
 
     /**
@@ -66,6 +71,11 @@ public class TelaVendidos extends javax.swing.JFrame {
         );
 
         Btnvoltar.setText("Voltar");
+        Btnvoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnvoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,9 +119,47 @@ public class TelaVendidos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void BtnvoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnvoltarActionPerformed
+      
+        this.dispose();
+
+    }//GEN-LAST:event_BtnvoltarActionPerformed
+
+   private void listarProdutosVendidos(){
+
+    try {
+
+        ProdutosDAO produtosdao = new ProdutosDAO();
+
+        DefaultTableModel model =
+                (DefaultTableModel) jTable1.getModel();
+
+        model.setNumRows(0);
+
+        ArrayList<ProdutosDTO> lista =
+                produtosdao.listarProdutosVendidos();
+
+        for(int i = 0; i < lista.size(); i++){
+
+            model.addRow(new Object[]{
+                lista.get(i).getId(),
+                lista.get(i).getNome(),
+                lista.get(i).getValor(),
+                lista.get(i).getStatus()
+            });
+
+        }
+
+    } catch (Exception e){
+
+        e.printStackTrace();
+
+    }
+
+}
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
